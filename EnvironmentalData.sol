@@ -16,7 +16,7 @@ struct Intervention {
     uint timestamp;           // Momento da intervenção
 }
 
-struct SilviSpecie {
+struct SpecieUnit {
     uint8 dbhMeasure;            // Diâmetro à altura do peito
     DBHMeasureUnit dbhUnit;      // Unidade da medida (centímetros ou metros)
     bytes32 speciesName;         // Nome da espécie
@@ -40,7 +40,7 @@ contract SpeciesMonitoring {
         int32 _latitude, 
         int32 _longitude
     ) public {
-        SilviSpecie memory newSpecie = SilviSpecie({
+        SpecieUnit memory newSpecie = SpecieUnit({
             dbhMeasure: _dbhMeasure,
             dbhUnit: _dbhUnit,
             speciesName: stringToBytes32(_speciesName),
@@ -61,7 +61,7 @@ contract SpeciesMonitoring {
     }
 
     function updateHealthStatus(uint speciesId, HealthStatus _newStatus) public {
-        SilviSpecie storage specie = speciesList[speciesId];
+        SpecieUnit storage specie = speciesList[speciesId];
         specie.healthStatus = _newStatus;
     }
 
@@ -72,7 +72,7 @@ contract SpeciesMonitoring {
         uint8 _soilMoisture, 
         uint8 _waterQuality
     ) public {
-        SilviSpecie storage specie = speciesList[speciesId];
+        SpecieUnit storage specie = speciesList[speciesId];
         specie.envData = EnvironmentalData({
             biodiversityIndex: _biodiversityIndex,
             soilPh: _soilPh,
@@ -82,7 +82,7 @@ contract SpeciesMonitoring {
     }
 
     function addIntervention(uint speciesId, string memory _action) public {
-        SilviSpecie storage specie = speciesList[speciesId];
+        SpecieUnit storage specie = speciesList[speciesId];
         specie.interventions.push(Intervention({
             actionDescription: _action,
             timestamp: block.timestamp
